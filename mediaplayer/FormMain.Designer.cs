@@ -32,6 +32,9 @@ namespace mediaplayer
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
+            this.btnPrevious = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnPlaylist = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnPlay
@@ -67,11 +70,49 @@ namespace mediaplayer
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Location = new System.Drawing.Point(21, 475);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(50, 50);
+            this.btnPrevious.TabIndex = 3;
+            this.btnPrevious.TabStop = false;
+            this.btnPrevious.Text = "<";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Visible = false;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
+            // 
+            // btnNext
+            // 
+            this.btnNext.Location = new System.Drawing.Point(183, 475);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(50, 50);
+            this.btnNext.TabIndex = 4;
+            this.btnNext.TabStop = false;
+            this.btnNext.Text = ">";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Visible = false;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnPlaylist
+            // 
+            this.btnPlaylist.Location = new System.Drawing.Point(77, 475);
+            this.btnPlaylist.Name = "btnPlaylist";
+            this.btnPlaylist.Size = new System.Drawing.Size(100, 50);
+            this.btnPlaylist.TabIndex = 5;
+            this.btnPlaylist.TabStop = false;
+            this.btnPlaylist.Text = "playlist";
+            this.btnPlaylist.UseVisualStyleBackColor = true;
+            this.btnPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 553);
+            this.Controls.Add(this.btnPlaylist);
+            this.Controls.Add(this.btnNext);
+            this.Controls.Add(this.btnPrevious);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnPlay);
@@ -90,6 +131,9 @@ namespace mediaplayer
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnPrevious;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnPlaylist;
     }
 }
 

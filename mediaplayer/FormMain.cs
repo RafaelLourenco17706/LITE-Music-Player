@@ -14,12 +14,18 @@ namespace mediaplayer
 {
     public partial class FormMain : Form
     {
-        private WaveOutEvent waveOutDevice;
-        private AudioFileReader audioFileReader;
+        public static FormMain formMain;
+
+        public WaveOutEvent waveOutDevice;
+        public AudioFileReader audioFileReader;
+
+        public bool playlistIsActive;
+        public bool userStopped;
 
         public FormMain()
         {
             InitializeComponent();
+            formMain = this;
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
@@ -37,7 +43,7 @@ namespace mediaplayer
                     waveOutDevice.Init(audioFileReader);
                     waveOutDevice.Play();
                 }
-            }  
+            }
         }
 
         private void btnPause_Click(object sender, EventArgs e)
@@ -53,14 +59,51 @@ namespace mediaplayer
                     waveOutDevice.Play();
                 }
             }
-        }
+        } 
 
         private void btnStop_Click(object sender, EventArgs e)
         {
             if (waveOutDevice != null)
             {
                 waveOutDevice.Dispose();
+                audioFileReader.Dispose();
                 waveOutDevice = null;
+                audioFileReader = null;
+       
+                playlistIsActive = false;
+                userStopped = true;
+
+                FormUpdate();
+            }
+        }
+
+        private void btnPlaylist_Click(object sender, EventArgs e)
+        {
+            if (waveOutDevice == null)
+                Playlist.LoadPlaylist();
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            Playlist.NextSong();
+        }
+
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            Playlist.PreviousSong();
+        }
+       
+        public void FormUpdate()
+        {
+            if (playlistIsActive)
+            {
+                btnNext.Visible = true;
+                btnPrevious.Visible = true;
+            }
+            else
+            {
+                btnNext.Visible = false;
+                btnPrevious.Visible = false;
             }
         }
     }
