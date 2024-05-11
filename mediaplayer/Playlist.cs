@@ -13,7 +13,7 @@ namespace mediaplayer
     {
         public static FormMain formMain = FormMain.formMain;
 
-        private static List<string> playlist;
+        public static List<string> playlist;
         private static int currentTrackIndex;
 
         public static void LoadPlaylist()
@@ -88,6 +88,26 @@ namespace mediaplayer
                 currentTrackIndex -= 2;
 
             // Trigger PlaybackStopped event.
+            formMain.waveOutDevice.Stop();
+        }
+
+        public static void PlaylistShuffle<T>(List<T> list)
+        {
+            // Shuffle the playlist using Fisher-Yates shuffle algorithm.
+
+            Random rng = new Random();
+            int n = list.Count;
+
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;     
+            }
+
+            currentTrackIndex = 0;
             formMain.waveOutDevice.Stop();
         }
     }

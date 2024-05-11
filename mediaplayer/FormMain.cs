@@ -92,18 +92,25 @@ namespace mediaplayer
         {
             Playlist.PreviousSong();
         }
-       
+
+        private void btnShuffle_Click(object sender, EventArgs e)
+        {
+            Playlist.PlaylistShuffle(Playlist.playlist);
+        }
+
         public void FormUpdate()
         {
             if (playlistIsActive)
             {
                 btnNext.Visible = true;
                 btnPrevious.Visible = true;
+                btnShuffle.Visible = true;
             }
             else
             {
                 btnNext.Visible = false;
                 btnPrevious.Visible = false;
+                btnShuffle.Visible = false;
             }
         }
     }

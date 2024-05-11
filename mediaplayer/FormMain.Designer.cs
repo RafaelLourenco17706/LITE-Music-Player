@@ -35,6 +35,7 @@ namespace mediaplayer
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnPlaylist = new System.Windows.Forms.Button();
+            this.btnShuffle = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnPlay
@@ -105,11 +106,24 @@ namespace mediaplayer
             this.btnPlaylist.UseVisualStyleBackColor = true;
             this.btnPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
             // 
+            // btnShuffle
+            // 
+            this.btnShuffle.Location = new System.Drawing.Point(21, 400);
+            this.btnShuffle.Name = "btnShuffle";
+            this.btnShuffle.Size = new System.Drawing.Size(100, 50);
+            this.btnShuffle.TabIndex = 6;
+            this.btnShuffle.TabStop = false;
+            this.btnShuffle.Text = "shuffle";
+            this.btnShuffle.UseVisualStyleBackColor = true;
+            this.btnShuffle.Visible = false;
+            this.btnShuffle.Click += new System.EventHandler(this.btnShuffle_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 553);
+            this.Controls.Add(this.btnShuffle);
             this.Controls.Add(this.btnPlaylist);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrevious);
@@ -134,6 +148,7 @@ namespace mediaplayer
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnPlaylist;
+        private System.Windows.Forms.Button btnShuffle;
     }
 }
 
