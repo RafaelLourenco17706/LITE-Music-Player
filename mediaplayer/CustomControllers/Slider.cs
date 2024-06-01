@@ -83,7 +83,7 @@ namespace mediaplayer
             using (Brush thumbBrush = new SolidBrush(Color.FromArgb(0, 100, 200)))
             {
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                g.FillEllipse(thumbBrush, thumbX, (Height - thumbSize) / 2, thumbSize, thumbSize);
+                g.FillEllipse(thumbBrush, thumbX, ((Height - thumbSize) / 2) - 1, thumbSize, thumbSize);
             }
         }
 

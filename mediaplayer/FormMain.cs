@@ -102,6 +102,7 @@ namespace mediaplayer
                     audioFileReader = new AudioFileReader(openFileDialog.FileName);
                     waveOutDevice.Init(audioFileReader);
                     waveOutDevice.Play();
+                    waveOutDevice.PlaybackStopped += btnStop_Click;
 
                     slider.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
 
