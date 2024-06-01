@@ -11,8 +11,6 @@ namespace mediaplayer
 {
     class Playlist
     {
-        public static FormMain formMain = FormMain.formMain;
-
         public static List<string> playlist;
         private static int currentTrackIndex;
 
@@ -36,10 +34,8 @@ namespace mediaplayer
                         playlist.Add(mp3File);
                     }
 
-                    formMain.userStopped = false;
-
-                    formMain.playlistIsActive = true;
-                    formMain.FormUpdate();
+                    FormMain.userStopped = false;
+                    FormMain.playlistIsActive = true;
 
                     PlayNext();
                 }
@@ -52,30 +48,32 @@ namespace mediaplayer
         {
             if (currentTrackIndex < playlist.Count)
             {
-                formMain.waveOutDevice = new WaveOutEvent();
-                formMain.audioFileReader = new AudioFileReader(playlist[currentTrackIndex]);
-                formMain.waveOutDevice.Init(formMain.audioFileReader);
-                formMain.waveOutDevice.Play();
+                FormMain.waveOutDevice = new WaveOutEvent();
+                FormMain.audioFileReader = new AudioFileReader(playlist[currentTrackIndex]);
+                FormMain.waveOutDevice.Init(FormMain.audioFileReader);
+                FormMain.waveOutDevice.Play();
 
-                formMain.waveOutDevice.PlaybackStopped += (sender, e) =>
+                FormMain.waveOutDevice.PlaybackStopped += (sender, e) =>
                 {
-                    if (!formMain.userStopped)
+                    if (!FormMain.userStopped)
                     {
                         currentTrackIndex++;
                         PlayNext();
                     } 
-                };  
+                };
             }
             else
             {
+                // Go back to the beginning of the playlist
                 currentTrackIndex = 0;
+                PlayNext();
             }
         }
 
         public static void NextSong()
         {
             // This will trigger PlaybackStopped event, effectively skipping the current song and playing the next one.
-            formMain.waveOutDevice.Stop();
+            FormMain.waveOutDevice.Stop();
         }
 
         public static void PreviousSong()
@@ -88,7 +86,7 @@ namespace mediaplayer
                 currentTrackIndex -= 2;
 
             // Trigger PlaybackStopped event.
-            formMain.waveOutDevice.Stop();
+            FormMain.waveOutDevice.Stop();
         }
 
         public static void PlaylistShuffle<T>(List<T> list)
@@ -108,7 +106,7 @@ namespace mediaplayer
             }
 
             currentTrackIndex = 0;
-            formMain.waveOutDevice.Stop();
+            FormMain.waveOutDevice.Stop();
         }
     }
 }

@@ -9,30 +9,90 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
 using System.IO;
+using System.Timers;
 
 namespace mediaplayer
 {
     public partial class FormMain : Form
     {
-        public static FormMain formMain;
+        public static WaveOutEvent waveOutDevice;
+        public static AudioFileReader audioFileReader;
+        private System.Timers.Timer timer;
 
-        public WaveOutEvent waveOutDevice;
-        public AudioFileReader audioFileReader;
+        public static bool playlistIsActive;
+        public static bool userStopped;
 
-        public bool playlistIsActive;
-        public bool userStopped;
+        private bool isDragging = false;
 
         public FormMain()
         {
             InitializeComponent();
-            formMain = this;
+
+            timer = new System.Timers.Timer();
+            timer.Interval = 100;
+            timer.Elapsed += UpdateSlider;
+            timer.Start();
         }
+
+        public void FormUpdate()
+        {
+            if (playlistIsActive)
+            {
+                btnNext.Visible = true;
+                btnPrevious.Visible = true;
+                btnShuffle.Visible = true;
+            }
+            else
+            {
+                btnNext.Visible = false;
+                btnPrevious.Visible = false;
+                btnShuffle.Visible = false;
+            }
+        }
+
+        #region slider
+
+        private void UpdateSlider(object sender, ElapsedEventArgs e)
+        {
+            if (waveOutDevice?.PlaybackState == PlaybackState.Playing)
+            {
+                if (isDragging == false)
+                    Invoke(new Action(() => slider.Value = (int)audioFileReader.CurrentTime.TotalSeconds));
+            }
+
+            if (waveOutDevice?.PlaybackState == PlaybackState.Playing || waveOutDevice?.PlaybackState == PlaybackState.Paused)
+            {
+                int seconds = ((int)audioFileReader.CurrentTime.TotalSeconds);
+                TimeSpan time = TimeSpan.FromSeconds(seconds);
+
+                Invoke(new Action(() => lblCurrentTime.Text = time.ToString(@"hh\:mm\:ss")));
+            }
+        }
+
+        private void slider_MouseDown(object sender, MouseEventArgs e)
+        {
+            isDragging = true;
+        }
+
+        private void slider_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDragging = false;
+            if (audioFileReader != null)
+            {
+                audioFileReader.CurrentTime = TimeSpan.FromSeconds(slider.Value);
+            }
+        }
+
+        #endregion
+
+        #region Buttons
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
             if (waveOutDevice == null)
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
                 openFileDialog.Filter = "mp3 files (*.mp3)|*.mp3";
                 openFileDialog.ShowDialog();
 
@@ -42,6 +102,14 @@ namespace mediaplayer
                     audioFileReader = new AudioFileReader(openFileDialog.FileName);
                     waveOutDevice.Init(audioFileReader);
                     waveOutDevice.Play();
+
+                    slider.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+
+                    int seconds = ((int)audioFileReader.TotalTime.TotalSeconds);
+                    TimeSpan time = TimeSpan.FromSeconds(seconds);
+                    lblTotalTime.Text = time.ToString(@"hh\:mm\:ss");
+
+                    slider.Enabled = true;
                 }
             }
         }
@@ -69,13 +137,20 @@ namespace mediaplayer
                 audioFileReader.Dispose();
                 waveOutDevice = null;
                 audioFileReader = null;
-       
+
                 playlistIsActive = false;
                 userStopped = true;
 
-                FormUpdate();
+                lblCurrentTime.Text = "00:00:00";
+                lblTotalTime.Text = "00:00:00";
+                slider.Value = 0;
+                slider.Enabled = false;
             }
         }
+
+        #endregion
+
+        #region Playlist
 
         private void btnPlaylist_Click(object sender, EventArgs e)
         {
@@ -85,33 +160,23 @@ namespace mediaplayer
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            Playlist.NextSong();
+            if (playlistIsActive)
+                Playlist.NextSong();
         }
 
         private void btnPrevious_Click(object sender, EventArgs e)
         {
-            Playlist.PreviousSong();
+            if (playlistIsActive)
+                Playlist.PreviousSong();
         }
 
         private void btnShuffle_Click(object sender, EventArgs e)
         {
-            Playlist.PlaylistShuffle(Playlist.playlist);
+            if (playlistIsActive)
+                Playlist.PlaylistShuffle(Playlist.playlist);
         }
 
-        public void FormUpdate()
-        {
-            if (playlistIsActive)
-            {
-                btnNext.Visible = true;
-                btnPrevious.Visible = true;
-                btnShuffle.Visible = true;
-            }
-            else
-            {
-                btnNext.Visible = false;
-                btnPrevious.Visible = false;
-                btnShuffle.Visible = false;
-            }
-        }
+        #endregion
+
     }
 }

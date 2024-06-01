@@ -36,6 +36,10 @@ namespace mediaplayer
             this.btnNext = new System.Windows.Forms.Button();
             this.btnPlaylist = new System.Windows.Forms.Button();
             this.btnShuffle = new System.Windows.Forms.Button();
+            this.lblCurrentTime = new System.Windows.Forms.Label();
+            this.lblTotalTime = new System.Windows.Forms.Label();
+            this.slider = new mediaplayer.Slider();
+            ((System.ComponentModel.ISupportInitialize)(this.slider)).BeginInit();
             this.SuspendLayout();
             // 
             // btnPlay
@@ -104,6 +108,7 @@ namespace mediaplayer
             this.btnPlaylist.TabStop = false;
             this.btnPlaylist.Text = "playlist";
             this.btnPlaylist.UseVisualStyleBackColor = true;
+            this.btnPlaylist.Visible = false;
             this.btnPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
             // 
             // btnShuffle
@@ -118,11 +123,49 @@ namespace mediaplayer
             this.btnShuffle.Visible = false;
             this.btnShuffle.Click += new System.EventHandler(this.btnShuffle_Click);
             // 
+            // lblCurrentTime
+            // 
+            this.lblCurrentTime.AutoSize = true;
+            this.lblCurrentTime.ForeColor = System.Drawing.SystemColors.Control;
+            this.lblCurrentTime.Location = new System.Drawing.Point(36, 359);
+            this.lblCurrentTime.Name = "lblCurrentTime";
+            this.lblCurrentTime.Size = new System.Drawing.Size(64, 17);
+            this.lblCurrentTime.TabIndex = 8;
+            this.lblCurrentTime.Text = "00:00:00";
+            // 
+            // lblTotalTime
+            // 
+            this.lblTotalTime.AutoSize = true;
+            this.lblTotalTime.ForeColor = System.Drawing.SystemColors.Control;
+            this.lblTotalTime.Location = new System.Drawing.Point(690, 360);
+            this.lblTotalTime.Name = "lblTotalTime";
+            this.lblTotalTime.Size = new System.Drawing.Size(64, 17);
+            this.lblTotalTime.TabIndex = 9;
+            this.lblTotalTime.Text = "00:00:00";
+            // 
+            // slider
+            // 
+            this.slider.Enabled = false;
+            this.slider.LargeChange = 0;
+            this.slider.Location = new System.Drawing.Point(21, 300);
+            this.slider.Maximum = 100;
+            this.slider.Name = "slider";
+            this.slider.Size = new System.Drawing.Size(733, 56);
+            this.slider.SmallChange = 0;
+            this.slider.TabIndex = 10;
+            this.slider.TickFrequency = 0;
+            this.slider.MouseDown += new System.Windows.Forms.MouseEventHandler(this.slider_MouseDown);
+            this.slider.MouseUp += new System.Windows.Forms.MouseEventHandler(this.slider_MouseUp);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.ClientSize = new System.Drawing.Size(782, 553);
+            this.Controls.Add(this.slider);
+            this.Controls.Add(this.lblTotalTime);
+            this.Controls.Add(this.lblCurrentTime);
             this.Controls.Add(this.btnShuffle);
             this.Controls.Add(this.btnPlaylist);
             this.Controls.Add(this.btnNext);
@@ -136,7 +179,9 @@ namespace mediaplayer
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Media Player";
+            ((System.ComponentModel.ISupportInitialize)(this.slider)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -149,6 +194,9 @@ namespace mediaplayer
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnPlaylist;
         private System.Windows.Forms.Button btnShuffle;
+        private System.Windows.Forms.Label lblCurrentTime;
+        private System.Windows.Forms.Label lblTotalTime;
+        private Slider slider;
     }
 }
 
