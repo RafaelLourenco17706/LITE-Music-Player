@@ -17,7 +17,7 @@ namespace mediaplayer
     {
         public static WaveOutEvent waveOutDevice;
         public static AudioFileReader audioFileReader;
-        private System.Timers.Timer timer;
+        private readonly System.Timers.Timer timer;
 
         public static bool playlistIsActive;
         public static bool userStopped;
@@ -30,10 +30,11 @@ namespace mediaplayer
 
             timer = new System.Timers.Timer();
             timer.Interval = 100;
-            timer.Elapsed += UpdateSlider;
+            timer.Elapsed += UpdateSliderPlayback;
             timer.Start();
         }
 
+        
         public void FormUpdate()
         {
             if (playlistIsActive)
@@ -50,14 +51,25 @@ namespace mediaplayer
             }
         }
 
-        #region slider
+        #region Sliders
 
-        private void UpdateSlider(object sender, ElapsedEventArgs e)
+        private void sliderVolume_ValueChanged(object sender, EventArgs e)
+        {
+            if (waveOutDevice != null)
+                waveOutDevice.Volume = sliderVolume.Value / 100f;
+
+            if (sliderVolume.Value == 0)
+                iconVolume.IconChar = FontAwesome.Sharp.IconChar.VolumeMute;
+            else
+                iconVolume.IconChar = FontAwesome.Sharp.IconChar.VolumeHigh;
+        }
+
+        private void UpdateSliderPlayback(object sender, ElapsedEventArgs e)
         {
             if (waveOutDevice?.PlaybackState == PlaybackState.Playing)
             {
                 if (isDragging == false)
-                    Invoke(new Action(() => slider.Value = (int)audioFileReader.CurrentTime.TotalSeconds));
+                    try { Invoke(new Action(() => sliderPlayback.Value = (int)audioFileReader.CurrentTime.TotalSeconds)); } catch { }
             }
 
             if (waveOutDevice?.PlaybackState == PlaybackState.Playing || waveOutDevice?.PlaybackState == PlaybackState.Paused)
@@ -65,7 +77,7 @@ namespace mediaplayer
                 int seconds = ((int)audioFileReader.CurrentTime.TotalSeconds);
                 TimeSpan time = TimeSpan.FromSeconds(seconds);
 
-                Invoke(new Action(() => lblCurrentTime.Text = time.ToString(@"hh\:mm\:ss")));
+                try { Invoke(new Action(() => lblCurrentTime.Text = time.ToString(@"hh\:mm\:ss"))); } catch { }
             }
         }
 
@@ -79,7 +91,7 @@ namespace mediaplayer
             isDragging = false;
             if (audioFileReader != null)
             {
-                audioFileReader.CurrentTime = TimeSpan.FromSeconds(slider.Value);
+                audioFileReader.CurrentTime = TimeSpan.FromSeconds(sliderPlayback.Value);
             }
         }
 
@@ -87,47 +99,58 @@ namespace mediaplayer
 
         #region Buttons
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private async void btnPlay_Click(object sender, EventArgs e)
         {
             if (waveOutDevice == null)
             {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-                openFileDialog.Filter = "mp3 files (*.mp3)|*.mp3";
-                openFileDialog.ShowDialog();
-
-                if (openFileDialog.FileName != "")
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
-                    waveOutDevice = new WaveOutEvent();
-                    audioFileReader = new AudioFileReader(openFileDialog.FileName);
-                    waveOutDevice.Init(audioFileReader);
+                    openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+                    openFileDialog.Filter = "Audio Files (*.mp3;*.wav;*.aac;*.flac;*.m4a;*.aiff;*.wma) | *.mp3;*.wav;*.aac;*.flac;*.m4a;*.aiff;*.wma";
+                    openFileDialog.ShowDialog();
+
+                    if (openFileDialog.FileName != "")
+                    {
+                        waveOutDevice = new WaveOutEvent();
+                        audioFileReader = new AudioFileReader(openFileDialog.FileName);
+                        waveOutDevice.Init(audioFileReader);
+                        waveOutDevice.Volume = sliderVolume.Value / 100f;
+                        waveOutDevice.Play();
+                        waveOutDevice.PlaybackStopped += btnStop_Click;
+
+                        btnPlay.IconChar = FontAwesome.Sharp.IconChar.Pause;
+
+                        int seconds = ((int)audioFileReader.TotalTime.TotalSeconds);
+                        TimeSpan time = TimeSpan.FromSeconds(seconds);
+                        lblTotalTime.Text = time.ToString(@"hh\:mm\:ss");
+
+                        sliderPlayback.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+
+                        // Prevent user from accidentally moving the slider when selecting file
+                        await Task.Delay(100);
+
+                        sliderPlayback.Enabled = true;  
+                    }
+                }  
+            }
+            else
+            {
+                if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+                {
+                    waveOutDevice.Pause();
+                    btnPlay.IconChar = FontAwesome.Sharp.IconChar.Play;
+                }
+                else if (waveOutDevice.PlaybackState == PlaybackState.Paused)
+                {
                     waveOutDevice.Play();
-                    waveOutDevice.PlaybackStopped += btnStop_Click;
-
-                    slider.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
-
-                    int seconds = ((int)audioFileReader.TotalTime.TotalSeconds);
-                    TimeSpan time = TimeSpan.FromSeconds(seconds);
-                    lblTotalTime.Text = time.ToString(@"hh\:mm\:ss");
-
-                    slider.Enabled = true;
+                    btnPlay.IconChar = FontAwesome.Sharp.IconChar.Pause;
                 }
             }
         }
 
         private void btnPause_Click(object sender, EventArgs e)
         {
-            if (waveOutDevice != null)
-            {
-                if (waveOutDevice.PlaybackState == PlaybackState.Playing)
-                {
-                    waveOutDevice.Pause();
-                }
-                else if (waveOutDevice.PlaybackState == PlaybackState.Paused)
-                {
-                    waveOutDevice.Play();
-                }
-            }
+            
         } 
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -144,8 +167,10 @@ namespace mediaplayer
 
                 lblCurrentTime.Text = "00:00:00";
                 lblTotalTime.Text = "00:00:00";
-                slider.Value = 0;
-                slider.Enabled = false;
+                sliderPlayback.Value = 0;
+                sliderPlayback.Enabled = false;
+
+                btnPlay.IconChar = FontAwesome.Sharp.IconChar.Play;
             }
         }
 
