@@ -59,9 +59,9 @@ namespace mediaplayer
                 waveOutDevice.Volume = sliderVolume.Value / 100f;
 
             if (sliderVolume.Value == 0)
-                iconVolume.IconChar = FontAwesome.Sharp.IconChar.VolumeMute;
+                btnVolume.IconChar = FontAwesome.Sharp.IconChar.VolumeMute;
             else
-                iconVolume.IconChar = FontAwesome.Sharp.IconChar.VolumeHigh;
+                btnVolume.IconChar = FontAwesome.Sharp.IconChar.VolumeHigh;
         }
 
         private void UpdateSliderPlayback(object sender, ElapsedEventArgs e)
@@ -114,11 +114,17 @@ namespace mediaplayer
                         waveOutDevice = new WaveOutEvent();
                         audioFileReader = new AudioFileReader(openFileDialog.FileName);
                         waveOutDevice.Init(audioFileReader);
-                        waveOutDevice.Volume = sliderVolume.Value / 100f;
+
+                        if (btnVolume.IconChar == FontAwesome.Sharp.IconChar.VolumeMute)
+                            waveOutDevice.Volume = 0f;
+                        else
+                            waveOutDevice.Volume = sliderVolume.Value / 100f;
+
                         waveOutDevice.Play();
                         waveOutDevice.PlaybackStopped += btnStop_Click;
 
                         btnPlay.IconChar = FontAwesome.Sharp.IconChar.Pause;
+                        btnStop.IconColor = Color.White;
 
                         int seconds = ((int)audioFileReader.TotalTime.TotalSeconds);
                         TimeSpan time = TimeSpan.FromSeconds(seconds);
@@ -171,6 +177,26 @@ namespace mediaplayer
                 sliderPlayback.Enabled = false;
 
                 btnPlay.IconChar = FontAwesome.Sharp.IconChar.Play;
+                btnStop.IconColor = Color.Gray;
+            }
+        }
+
+        private void btnVolume_Click(object sender, EventArgs e)
+        {
+            if (sliderVolume.Value != 0)
+            {
+                if (btnVolume.IconChar == FontAwesome.Sharp.IconChar.VolumeMute)
+                    btnVolume.IconChar = FontAwesome.Sharp.IconChar.VolumeHigh;
+                else
+                    btnVolume.IconChar = FontAwesome.Sharp.IconChar.VolumeMute;
+            }
+
+            if (waveOutDevice != null)
+            {
+                if (btnVolume.IconChar == FontAwesome.Sharp.IconChar.VolumeMute)
+                    waveOutDevice.Volume = 0f;
+                else
+                    waveOutDevice.Volume = sliderVolume.Value / 100f;
             }
         }
 
@@ -204,5 +230,22 @@ namespace mediaplayer
 
         #endregion
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMaximize_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+                this.WindowState = FormWindowState.Normal;
+            else
+                this.WindowState = FormWindowState.Maximized;
+        }
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
 }
