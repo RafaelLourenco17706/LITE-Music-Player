@@ -34,7 +34,87 @@ namespace mediaplayer
             timer.Start();
         }
 
-        
+        #region Form drag and resize
+
+        private bool dragging = false;
+        private Point dragStartPoint;
+
+        private bool resizing = false;
+        private Point resizeStartPoint;
+        private Size resizeStartSize;
+        private const int resizeBorderWidth = 10;
+
+        private void tlpTop_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragging = true;
+            dragStartPoint = new Point(e.X, e.Y);
+        }
+
+        private void tlpTop_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragging)
+            {
+                Point point = PointToScreen(new Point(e.X, e.Y));
+                Location = new Point(point.X - dragStartPoint.X, point.Y - dragStartPoint.Y);
+            }
+        }
+
+        private void tlpTop_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragging = false;
+        }
+
+        private void tlpBottom_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (IsInResizeZone(e.Location, tlpBottom))
+            {
+                resizing = true;
+                resizeStartPoint = e.Location;
+                resizeStartSize = this.Size;
+
+                this.SuspendLayout();
+            }
+        }
+
+        private void tlpBottom_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (resizing)
+            {
+                int newWidth = resizeStartSize.Width + (e.X - resizeStartPoint.X);
+                int newHeight = resizeStartSize.Height + (e.Y - resizeStartPoint.Y);
+                this.Size = new Size(newWidth, newHeight);
+            }
+            else
+            {
+                if (IsInResizeZone(e.Location, tlpBottom))
+                {
+                    this.Cursor = Cursors.SizeNWSE; // Set the cursor to indicate resizing
+                }
+                else
+                {
+                    this.Cursor = Cursors.Default; // Set the cursor to default
+                }
+            }
+        }
+
+        private void tlpBottom_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (resizing)
+            {
+                resizing = false;
+
+                // Resume layout logic after resizing is completed
+                this.ResumeLayout();
+            }
+        }
+
+        private bool IsInResizeZone(Point point, Control control)
+        {
+            return point.X >= control.ClientSize.Width - resizeBorderWidth && point.Y >= control.ClientSize.Height - resizeBorderWidth;
+        }
+
+        #endregion
+
         public void FormUpdate()
         {
             if (playlistIsActive)

@@ -47,9 +47,9 @@ namespace mediaplayer
             this.pnlTop = new System.Windows.Forms.Panel();
             this.tlpTop = new System.Windows.Forms.TableLayoutPanel();
             this.lblAppName = new System.Windows.Forms.Label();
-            this.btnClose = new FontAwesome.Sharp.IconPictureBox();
             this.btnMaximize = new FontAwesome.Sharp.IconPictureBox();
             this.btnMinimize = new FontAwesome.Sharp.IconPictureBox();
+            this.btnClose = new FontAwesome.Sharp.IconPictureBox();
             this.tlpMain.SuspendLayout();
             this.pnlBottom.SuspendLayout();
             this.tlpBottom.SuspendLayout();
@@ -65,9 +65,9 @@ namespace mediaplayer
             ((System.ComponentModel.ISupportInitialize)(this.iconLogo)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.tlpTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -85,7 +85,7 @@ namespace mediaplayer
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 82.5F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
-            this.tlpMain.Size = new System.Drawing.Size(784, 561);
+            this.tlpMain.Size = new System.Drawing.Size(800, 600);
             this.tlpMain.TabIndex = 25;
             // 
             // pnlBottom
@@ -93,10 +93,10 @@ namespace mediaplayer
             this.pnlBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.pnlBottom.Controls.Add(this.tlpBottom);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 471);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 503);
             this.pnlBottom.Margin = new System.Windows.Forms.Padding(0);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(784, 90);
+            this.pnlBottom.Size = new System.Drawing.Size(800, 97);
             this.pnlBottom.TabIndex = 32;
             // 
             // tlpBottom
@@ -128,8 +128,11 @@ namespace mediaplayer
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.36642F));
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.04798F));
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 44.58561F));
-            this.tlpBottom.Size = new System.Drawing.Size(784, 90);
+            this.tlpBottom.Size = new System.Drawing.Size(800, 97);
             this.tlpBottom.TabIndex = 0;
+            this.tlpBottom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tlpBottom_MouseDown);
+            this.tlpBottom.MouseMove += new System.Windows.Forms.MouseEventHandler(this.tlpBottom_MouseMove);
+            this.tlpBottom.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tlpBottom_MouseUp);
             // 
             // btnShuffle
             // 
@@ -140,7 +143,7 @@ namespace mediaplayer
             this.btnShuffle.IconColor = System.Drawing.Color.Gray;
             this.btnShuffle.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnShuffle.IconSize = 36;
-            this.btnShuffle.Location = new System.Drawing.Point(85, 54);
+            this.btnShuffle.Location = new System.Drawing.Point(87, 59);
             this.btnShuffle.Margin = new System.Windows.Forms.Padding(10, 5, 0, 0);
             this.btnShuffle.Name = "btnShuffle";
             this.btnShuffle.Size = new System.Drawing.Size(40, 36);
@@ -156,7 +159,7 @@ namespace mediaplayer
             this.btnStop.IconColor = System.Drawing.Color.Gray;
             this.btnStop.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnStop.IconSize = 38;
-            this.btnStop.Location = new System.Drawing.Point(252, 49);
+            this.btnStop.Location = new System.Drawing.Point(259, 54);
             this.btnStop.Margin = new System.Windows.Forms.Padding(0);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(38, 41);
@@ -173,7 +176,7 @@ namespace mediaplayer
             this.btnPrevious.IconColor = System.Drawing.Color.Gray;
             this.btnPrevious.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnPrevious.IconSize = 38;
-            this.btnPrevious.Location = new System.Drawing.Point(325, 49);
+            this.btnPrevious.Location = new System.Drawing.Point(333, 54);
             this.btnPrevious.Margin = new System.Windows.Forms.Padding(0);
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(38, 41);
@@ -188,7 +191,7 @@ namespace mediaplayer
             this.btnPlay.IconColor = System.Drawing.Color.White;
             this.btnPlay.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnPlay.IconSize = 38;
-            this.btnPlay.Location = new System.Drawing.Point(375, 49);
+            this.btnPlay.Location = new System.Drawing.Point(384, 54);
             this.btnPlay.Margin = new System.Windows.Forms.Padding(0);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(38, 41);
@@ -207,7 +210,7 @@ namespace mediaplayer
             this.sliderPlayback.Margin = new System.Windows.Forms.Padding(20, 5, 20, 0);
             this.sliderPlayback.Maximum = 100;
             this.sliderPlayback.Name = "sliderPlayback";
-            this.sliderPlayback.Size = new System.Drawing.Size(744, 28);
+            this.sliderPlayback.Size = new System.Drawing.Size(760, 31);
             this.sliderPlayback.SmallChange = 0;
             this.sliderPlayback.TabIndex = 10;
             this.sliderPlayback.TickFrequency = 0;
@@ -223,7 +226,7 @@ namespace mediaplayer
             this.btnNext.IconColor = System.Drawing.Color.Gray;
             this.btnNext.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnNext.IconSize = 38;
-            this.btnNext.Location = new System.Drawing.Point(426, 49);
+            this.btnNext.Location = new System.Drawing.Point(435, 54);
             this.btnNext.Margin = new System.Windows.Forms.Padding(0);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(38, 41);
@@ -239,7 +242,7 @@ namespace mediaplayer
             this.btnPlaylist.IconColor = System.Drawing.Color.Gray;
             this.btnPlaylist.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnPlaylist.IconSize = 40;
-            this.btnPlaylist.Location = new System.Drawing.Point(25, 49);
+            this.btnPlaylist.Location = new System.Drawing.Point(27, 55);
             this.btnPlaylist.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.btnPlaylist.Name = "btnPlaylist";
             this.btnPlaylist.Size = new System.Drawing.Size(40, 40);
@@ -251,7 +254,7 @@ namespace mediaplayer
             this.lblCurrentTime.AutoSize = true;
             this.tlpBottom.SetColumnSpan(this.lblCurrentTime, 2);
             this.lblCurrentTime.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblCurrentTime.Location = new System.Drawing.Point(20, 33);
+            this.lblCurrentTime.Location = new System.Drawing.Point(20, 36);
             this.lblCurrentTime.Margin = new System.Windows.Forms.Padding(20, 0, 2, 0);
             this.lblCurrentTime.Name = "lblCurrentTime";
             this.lblCurrentTime.Size = new System.Drawing.Size(49, 13);
@@ -262,11 +265,11 @@ namespace mediaplayer
             // 
             this.sliderVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.sliderVolume.LargeChange = 0;
-            this.sliderVolume.Location = new System.Drawing.Point(654, 49);
+            this.sliderVolume.Location = new System.Drawing.Point(667, 53);
             this.sliderVolume.Margin = new System.Windows.Forms.Padding(15, 0, 20, 0);
             this.sliderVolume.Maximum = 100;
             this.sliderVolume.Name = "sliderVolume";
-            this.sliderVolume.Size = new System.Drawing.Size(110, 41);
+            this.sliderVolume.Size = new System.Drawing.Size(113, 44);
             this.sliderVolume.SmallChange = 0;
             this.sliderVolume.TabIndex = 24;
             this.sliderVolume.TickFrequency = 0;
@@ -281,7 +284,7 @@ namespace mediaplayer
             this.btnVolume.IconColor = System.Drawing.Color.White;
             this.btnVolume.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnVolume.IconSize = 30;
-            this.btnVolume.Location = new System.Drawing.Point(609, 56);
+            this.btnVolume.Location = new System.Drawing.Point(622, 61);
             this.btnVolume.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.btnVolume.Name = "btnVolume";
             this.btnVolume.Size = new System.Drawing.Size(30, 32);
@@ -294,7 +297,7 @@ namespace mediaplayer
             this.lblTotalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalTime.AutoSize = true;
             this.lblTotalTime.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblTotalTime.Location = new System.Drawing.Point(718, 33);
+            this.lblTotalTime.Location = new System.Drawing.Point(734, 36);
             this.lblTotalTime.Margin = new System.Windows.Forms.Padding(2, 0, 17, 0);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(49, 13);
@@ -309,11 +312,11 @@ namespace mediaplayer
             this.iconLogo.IconChar = FontAwesome.Sharp.IconChar.Music;
             this.iconLogo.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.iconLogo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconLogo.IconSize = 421;
+            this.iconLogo.IconSize = 453;
             this.iconLogo.Location = new System.Drawing.Point(0, 50);
             this.iconLogo.Margin = new System.Windows.Forms.Padding(0);
             this.iconLogo.Name = "iconLogo";
-            this.iconLogo.Size = new System.Drawing.Size(784, 421);
+            this.iconLogo.Size = new System.Drawing.Size(800, 453);
             this.iconLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.iconLogo.TabIndex = 33;
             this.iconLogo.TabStop = false;
@@ -326,7 +329,7 @@ namespace mediaplayer
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(784, 50);
+            this.pnlTop.Size = new System.Drawing.Size(800, 50);
             this.pnlTop.TabIndex = 34;
             // 
             // tlpTop
@@ -346,8 +349,11 @@ namespace mediaplayer
             this.tlpTop.Name = "tlpTop";
             this.tlpTop.RowCount = 1;
             this.tlpTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpTop.Size = new System.Drawing.Size(784, 50);
+            this.tlpTop.Size = new System.Drawing.Size(800, 50);
             this.tlpTop.TabIndex = 1;
+            this.tlpTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tlpTop_MouseDown);
+            this.tlpTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.tlpTop_MouseMove);
+            this.tlpTop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tlpTop_MouseUp);
             // 
             // lblAppName
             // 
@@ -362,33 +368,15 @@ namespace mediaplayer
             this.lblAppName.TabIndex = 0;
             this.lblAppName.Text = "LITE Music Player";
             // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
-            this.btnClose.ForeColor = System.Drawing.Color.Silver;
-            this.btnClose.IconChar = FontAwesome.Sharp.IconChar.X;
-            this.btnClose.IconColor = System.Drawing.Color.Silver;
-            this.btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnClose.IconSize = 30;
-            this.btnClose.Location = new System.Drawing.Point(744, 12);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(30, 30);
-            this.btnClose.TabIndex = 1;
-            this.btnClose.TabStop = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
             // btnMaximize
             // 
             this.btnMaximize.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnMaximize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
-            this.btnMaximize.ForeColor = System.Drawing.Color.Silver;
             this.btnMaximize.IconChar = FontAwesome.Sharp.IconChar.Square;
-            this.btnMaximize.IconColor = System.Drawing.Color.Silver;
+            this.btnMaximize.IconColor = System.Drawing.Color.White;
             this.btnMaximize.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMaximize.IconSize = 30;
-            this.btnMaximize.Location = new System.Drawing.Point(694, 12);
+            this.btnMaximize.Location = new System.Drawing.Point(710, 12);
             this.btnMaximize.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.btnMaximize.Name = "btnMaximize";
             this.btnMaximize.Size = new System.Drawing.Size(30, 30);
@@ -400,12 +388,11 @@ namespace mediaplayer
             // 
             this.btnMinimize.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnMinimize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
-            this.btnMinimize.ForeColor = System.Drawing.Color.Silver;
             this.btnMinimize.IconChar = FontAwesome.Sharp.IconChar.Minus;
-            this.btnMinimize.IconColor = System.Drawing.Color.Silver;
+            this.btnMinimize.IconColor = System.Drawing.Color.White;
             this.btnMinimize.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnMinimize.IconSize = 30;
-            this.btnMinimize.Location = new System.Drawing.Point(644, 12);
+            this.btnMinimize.Location = new System.Drawing.Point(660, 12);
             this.btnMinimize.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(30, 30);
@@ -413,12 +400,28 @@ namespace mediaplayer
             this.btnMinimize.TabStop = false;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.btnClose.IconChar = FontAwesome.Sharp.IconChar.X;
+            this.btnClose.IconColor = System.Drawing.Color.White;
+            this.btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnClose.IconSize = 30;
+            this.btnClose.Location = new System.Drawing.Point(760, 12);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(30, 30);
+            this.btnClose.TabIndex = 1;
+            this.btnClose.TabStop = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.tlpMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -444,9 +447,9 @@ namespace mediaplayer
             this.pnlTop.ResumeLayout(false);
             this.tlpTop.ResumeLayout(false);
             this.tlpTop.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -470,9 +473,9 @@ namespace mediaplayer
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.TableLayoutPanel tlpTop;
         private System.Windows.Forms.Label lblAppName;
-        private FontAwesome.Sharp.IconPictureBox btnClose;
         private FontAwesome.Sharp.IconPictureBox btnMaximize;
         private FontAwesome.Sharp.IconPictureBox btnMinimize;
+        private FontAwesome.Sharp.IconPictureBox btnClose;
     }
 }
 
