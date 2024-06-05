@@ -43,13 +43,16 @@ namespace mediaplayer
             this.sliderVolume = new mediaplayer.Slider();
             this.btnVolume = new FontAwesome.Sharp.IconPictureBox();
             this.lblTotalTime = new System.Windows.Forms.Label();
-            this.iconLogo = new FontAwesome.Sharp.IconPictureBox();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.tlpTop = new System.Windows.Forms.TableLayoutPanel();
             this.lblAppName = new System.Windows.Forms.Label();
             this.btnMaximize = new FontAwesome.Sharp.IconPictureBox();
             this.btnMinimize = new FontAwesome.Sharp.IconPictureBox();
             this.btnClose = new FontAwesome.Sharp.IconPictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.iconLogo = new FontAwesome.Sharp.IconPictureBox();
+            this.lblSong = new System.Windows.Forms.Label();
+            this.lblArtist = new System.Windows.Forms.Label();
             this.tlpMain.SuspendLayout();
             this.pnlBottom.SuspendLayout();
             this.tlpBottom.SuspendLayout();
@@ -62,12 +65,13 @@ namespace mediaplayer
             ((System.ComponentModel.ISupportInitialize)(this.btnPlaylist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnVolume)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconLogo)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.tlpTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // tlpMain
@@ -76,8 +80,8 @@ namespace mediaplayer
             this.tlpMain.ColumnCount = 1;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.Controls.Add(this.pnlBottom, 0, 2);
-            this.tlpMain.Controls.Add(this.iconLogo, 0, 1);
             this.tlpMain.Controls.Add(this.pnlTop, 0, 0);
+            this.tlpMain.Controls.Add(this.panel1, 0, 1);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 0);
             this.tlpMain.Name = "tlpMain";
@@ -242,8 +246,8 @@ namespace mediaplayer
             this.btnPlaylist.IconColor = System.Drawing.Color.Gray;
             this.btnPlaylist.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnPlaylist.IconSize = 40;
-            this.btnPlaylist.Location = new System.Drawing.Point(27, 55);
-            this.btnPlaylist.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.btnPlaylist.Location = new System.Drawing.Point(37, 55);
+            this.btnPlaylist.Margin = new System.Windows.Forms.Padding(0);
             this.btnPlaylist.Name = "btnPlaylist";
             this.btnPlaylist.Size = new System.Drawing.Size(40, 40);
             this.btnPlaylist.TabIndex = 30;
@@ -253,11 +257,12 @@ namespace mediaplayer
             // 
             this.lblCurrentTime.AutoSize = true;
             this.tlpBottom.SetColumnSpan(this.lblCurrentTime, 2);
+            this.lblCurrentTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrentTime.ForeColor = System.Drawing.SystemColors.Control;
             this.lblCurrentTime.Location = new System.Drawing.Point(20, 36);
             this.lblCurrentTime.Margin = new System.Windows.Forms.Padding(20, 0, 2, 0);
             this.lblCurrentTime.Name = "lblCurrentTime";
-            this.lblCurrentTime.Size = new System.Drawing.Size(49, 13);
+            this.lblCurrentTime.Size = new System.Drawing.Size(56, 16);
             this.lblCurrentTime.TabIndex = 8;
             this.lblCurrentTime.Text = "00:00:00";
             // 
@@ -296,30 +301,14 @@ namespace mediaplayer
             // 
             this.lblTotalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalTime.AutoSize = true;
+            this.lblTotalTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalTime.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblTotalTime.Location = new System.Drawing.Point(734, 36);
+            this.lblTotalTime.Location = new System.Drawing.Point(727, 36);
             this.lblTotalTime.Margin = new System.Windows.Forms.Padding(2, 0, 17, 0);
             this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(49, 13);
+            this.lblTotalTime.Size = new System.Drawing.Size(56, 16);
             this.lblTotalTime.TabIndex = 9;
             this.lblTotalTime.Text = "00:00:00";
-            // 
-            // iconLogo
-            // 
-            this.iconLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.iconLogo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.iconLogo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
-            this.iconLogo.IconChar = FontAwesome.Sharp.IconChar.Music;
-            this.iconLogo.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
-            this.iconLogo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconLogo.IconSize = 453;
-            this.iconLogo.Location = new System.Drawing.Point(0, 50);
-            this.iconLogo.Margin = new System.Windows.Forms.Padding(0);
-            this.iconLogo.Name = "iconLogo";
-            this.iconLogo.Size = new System.Drawing.Size(800, 453);
-            this.iconLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.iconLogo.TabIndex = 33;
-            this.iconLogo.TabStop = false;
             // 
             // pnlTop
             // 
@@ -416,6 +405,56 @@ namespace mediaplayer
             this.btnClose.TabStop = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lblArtist);
+            this.panel1.Controls.Add(this.lblSong);
+            this.panel1.Controls.Add(this.iconLogo);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 53);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(794, 447);
+            this.panel1.TabIndex = 35;
+            // 
+            // iconLogo
+            // 
+            this.iconLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.iconLogo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.iconLogo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.iconLogo.IconChar = FontAwesome.Sharp.IconChar.Music;
+            this.iconLogo.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
+            this.iconLogo.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconLogo.IconSize = 447;
+            this.iconLogo.Location = new System.Drawing.Point(0, 0);
+            this.iconLogo.Margin = new System.Windows.Forms.Padding(0);
+            this.iconLogo.Name = "iconLogo";
+            this.iconLogo.Size = new System.Drawing.Size(794, 447);
+            this.iconLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.iconLogo.TabIndex = 34;
+            this.iconLogo.TabStop = false;
+            // 
+            // lblSong
+            // 
+            this.lblSong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblSong.AutoSize = true;
+            this.lblSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSong.ForeColor = System.Drawing.Color.DimGray;
+            this.lblSong.Location = new System.Drawing.Point(13, 392);
+            this.lblSong.Name = "lblSong";
+            this.lblSong.Size = new System.Drawing.Size(0, 24);
+            this.lblSong.TabIndex = 35;
+            // 
+            // lblArtist
+            // 
+            this.lblArtist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblArtist.AutoSize = true;
+            this.lblArtist.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblArtist.ForeColor = System.Drawing.Color.DimGray;
+            this.lblArtist.Location = new System.Drawing.Point(14, 417);
+            this.lblArtist.Name = "lblArtist";
+            this.lblArtist.Size = new System.Drawing.Size(0, 16);
+            this.lblArtist.TabIndex = 36;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -425,7 +464,7 @@ namespace mediaplayer
             this.Controls.Add(this.tlpMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(580, 450);
+            this.MinimumSize = new System.Drawing.Size(600, 500);
             this.Name = "FormMain";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -443,13 +482,15 @@ namespace mediaplayer
             ((System.ComponentModel.ISupportInitialize)(this.btnPlaylist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderVolume)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnVolume)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconLogo)).EndInit();
             this.pnlTop.ResumeLayout(false);
             this.tlpTop.ResumeLayout(false);
             this.tlpTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnMaximize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMinimize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -469,13 +510,16 @@ namespace mediaplayer
         private FontAwesome.Sharp.IconPictureBox btnPlaylist;
         private FontAwesome.Sharp.IconPictureBox btnPrevious;
         private FontAwesome.Sharp.IconPictureBox btnShuffle;
-        private FontAwesome.Sharp.IconPictureBox iconLogo;
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.TableLayoutPanel tlpTop;
         private System.Windows.Forms.Label lblAppName;
         private FontAwesome.Sharp.IconPictureBox btnMaximize;
         private FontAwesome.Sharp.IconPictureBox btnMinimize;
         private FontAwesome.Sharp.IconPictureBox btnClose;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblArtist;
+        private System.Windows.Forms.Label lblSong;
+        private FontAwesome.Sharp.IconPictureBox iconLogo;
     }
 }
 

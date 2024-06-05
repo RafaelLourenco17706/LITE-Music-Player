@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using System.IO;
 using System.Timers;
+using TagLib;
 
 namespace mediaplayer
 {
@@ -102,6 +103,7 @@ namespace mediaplayer
             if (resizing)
             {
                 resizing = false;
+                this.Cursor = Cursors.Default;
 
                 // Resume layout logic after resizing is completed
                 this.ResumeLayout();
@@ -114,22 +116,6 @@ namespace mediaplayer
         }
 
         #endregion
-
-        public void FormUpdate()
-        {
-            if (playlistIsActive)
-            {
-                btnNext.Visible = true;
-                btnPrevious.Visible = true;
-                btnShuffle.Visible = true;
-            }
-            else
-            {
-                btnNext.Visible = false;
-                btnPrevious.Visible = false;
-                btnShuffle.Visible = false;
-            }
-        }
 
         #region Sliders
 
@@ -194,6 +180,8 @@ namespace mediaplayer
                         waveOutDevice = new WaveOutEvent();
                         audioFileReader = new AudioFileReader(openFileDialog.FileName);
                         waveOutDevice.Init(audioFileReader);
+
+                        ReadMetaData(openFileDialog.FileName);
 
                         if (btnVolume.IconChar == FontAwesome.Sharp.IconChar.VolumeMute)
                             waveOutDevice.Volume = 0f;
@@ -327,5 +315,28 @@ namespace mediaplayer
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+        private void ReadMetaData(string filepath)
+        {
+            using (var file = TagLib.File.Create(filepath))
+            {
+                lblSong.Text = string.IsNullOrEmpty(file.Tag.Title) ? "Unknown song" : file.Tag.Title;
+
+                if (lblSong.Text == "Unknown song")
+                    lblSong.ForeColor = Color.DimGray;
+                else
+                    lblSong.ForeColor = Color.White;
+
+                lblArtist.Text = file.Tag.Performers.Length > 0 ? file.Tag.Performers[0] : "Unknown artist";
+                lblArtist.Text = lblArtist.Text.Replace("/", ", ");
+
+                if (lblArtist.Text == "Unknown artist")
+                    lblArtist.ForeColor = Color.DimGray;
+                else
+                    lblArtist.ForeColor = Color.White;
+            }
+            
+        }
+
     }
 }
