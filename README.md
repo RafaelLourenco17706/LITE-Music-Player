@@ -25,3 +25,7 @@ This is a free and open-source software released under the GNU GPL 3.0 license. 
 ---
 
 Made with ❤️ by Rafael Lourenço.
+
+> [!NOTE]
+> If you download the installer, Windows Defender will most likely flag the program as being a trojan, so you might need to disable Windows Defender to install the app.
+> Alternatively, you can download the source code and compile it.
