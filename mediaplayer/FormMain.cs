@@ -10,18 +10,19 @@ using System.Windows.Forms;
 using NAudio.Wave;
 using System.IO;
 using System.Timers;
-using TagLib;
 
 namespace mediaplayer
 {
     public partial class FormMain : Form
     {
-        public static WaveOutEvent waveOutDevice;
-        public static AudioFileReader audioFileReader;
-        private readonly System.Timers.Timer timer;
+        private WaveOutEvent waveOutDevice;
+        private AudioFileReader audioFileReader;
+        private System.Timers.Timer timer;
 
-        public static bool playlistIsActive;
-        public static bool userStopped;
+        private List<string> playlist;
+        private int currentTrackIndex;
+
+        private bool userStopped;
 
         private bool isDragging = false;
 
@@ -34,6 +35,28 @@ namespace mediaplayer
             timer.Elapsed += UpdateSliderPlayback;
             timer.Start();
         }
+
+        #region Form title bar
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMaximize_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+                this.WindowState = FormWindowState.Normal;
+            else
+                this.WindowState = FormWindowState.Maximized;
+        }
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        #endregion
 
         #region Form drag and resize
 
@@ -73,6 +96,7 @@ namespace mediaplayer
                 resizeStartPoint = e.Location;
                 resizeStartSize = this.Size;
 
+                // Suspend layout logic
                 this.SuspendLayout();
             }
         }
@@ -193,6 +217,7 @@ namespace mediaplayer
 
                         btnPlay.IconChar = FontAwesome.Sharp.IconChar.Pause;
                         btnStop.IconColor = Color.White;
+                        btnPlaylist.IconColor = Color.Gray;
 
                         int seconds = ((int)audioFileReader.TotalTime.TotalSeconds);
                         TimeSpan time = TimeSpan.FromSeconds(seconds);
@@ -200,7 +225,7 @@ namespace mediaplayer
 
                         sliderPlayback.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
 
-                        // Prevent user from accidentally moving the slider when selecting file
+                        // Prevent user from accidentally moving the playback slider when selecting file
                         await Task.Delay(100);
 
                         sliderPlayback.Enabled = true;  
@@ -222,11 +247,6 @@ namespace mediaplayer
             }
         }
 
-        private void btnPause_Click(object sender, EventArgs e)
-        {
-            
-        } 
-
         private void btnStop_Click(object sender, EventArgs e)
         {
             if (waveOutDevice != null)
@@ -235,17 +255,24 @@ namespace mediaplayer
                 audioFileReader.Dispose();
                 waveOutDevice = null;
                 audioFileReader = null;
-
-                playlistIsActive = false;
                 userStopped = true;
 
-                lblCurrentTime.Text = "00:00:00";
-                lblTotalTime.Text = "00:00:00";
                 sliderPlayback.Value = 0;
                 sliderPlayback.Enabled = false;
 
+                lblCurrentTime.Text = "00:00:00";
+                lblTotalTime.Text = "00:00:00";
+
                 btnPlay.IconChar = FontAwesome.Sharp.IconChar.Play;
                 btnStop.IconColor = Color.Gray;
+                btnNext.IconColor = Color.Gray;
+                btnPrevious.IconColor = Color.Gray;
+                btnShuffle.IconColor = Color.Gray;
+                btnPlaylist.IconColor = Color.White;
+
+                lblSong.Text = "";
+                lblArtist.Text = "";
+                lblFolder.Text = "";
             }
         }
 
@@ -274,47 +301,166 @@ namespace mediaplayer
 
         private void btnPlaylist_Click(object sender, EventArgs e)
         {
-            if (waveOutDevice == null)
-                Playlist.LoadPlaylist();
+            if (btnPlaylist.IconColor == Color.White)
+            {
+                using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
+                {
+                    folderBrowserDialog.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+                    DialogResult dialogResult = folderBrowserDialog.ShowDialog();
+
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        playlist = new List<string>();
+                        currentTrackIndex = 0;
+
+                        string[] extensions = new[] { "*.mp3", "*.wav", "*.aac", "*.flac", "*.m4a", "*.aiff", "*.wma" };
+                        string path = folderBrowserDialog.SelectedPath;
+                        string folderName = Path.GetFileName(path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+
+                        string[] files = extensions.SelectMany(ext => Directory.GetFiles(path, ext, SearchOption.TopDirectoryOnly)).OrderBy(file => file).ToArray();
+
+                        if (files.Length != 0)
+                        {
+                            foreach (string file in files)
+                            {
+                                playlist.Add(file);
+                            }
+
+                            userStopped = false;
+
+                            btnStop.IconColor = Color.White;
+                            btnNext.IconColor = Color.White;
+                            btnPrevious.IconColor = Color.White;
+                            btnShuffle.IconColor = Color.White;
+                            btnPlaylist.IconColor = Color.Gray;
+                            lblFolder.Text = "Folder: '" + folderName + "'";
+
+                            PlayNext();
+                        }
+                        else
+                            MessageBox.Show("No audio files were found in this folder.", "No audio files", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+        }
+
+        private void PlayNext()
+        {
+            if (currentTrackIndex < playlist.Count)
+            {
+                waveOutDevice = new WaveOutEvent();
+                audioFileReader = new AudioFileReader(playlist[currentTrackIndex]);
+                waveOutDevice.Init(audioFileReader);
+                waveOutDevice.Play();
+
+                ReadMetaData(playlist[currentTrackIndex]);
+
+                if (btnVolume.IconChar == FontAwesome.Sharp.IconChar.VolumeMute)
+                    waveOutDevice.Volume = 0f;
+                else
+                    waveOutDevice.Volume = sliderVolume.Value / 100f;
+
+                waveOutDevice.Play();
+
+                btnPlay.IconChar = FontAwesome.Sharp.IconChar.Pause;
+                btnStop.IconColor = Color.White;
+                btnPlaylist.IconColor = Color.Gray;
+
+                int seconds = ((int)audioFileReader.TotalTime.TotalSeconds);
+                TimeSpan time = TimeSpan.FromSeconds(seconds);
+                lblTotalTime.Text = time.ToString(@"hh\:mm\:ss");
+
+                sliderPlayback.Maximum = (int)audioFileReader.TotalTime.TotalSeconds;
+                sliderPlayback.Enabled = true;
+
+                waveOutDevice.PlaybackStopped += (sender, e) =>
+                {
+                    if (userStopped == false)
+                    {
+                        currentTrackIndex++;
+                        PlayNext();
+                    }
+                };
+            }
+            else
+            {
+                waveOutDevice.Dispose();
+                audioFileReader.Dispose();
+                waveOutDevice = null;
+                audioFileReader = null;
+                userStopped = true;
+
+                sliderPlayback.Value = 0;
+                sliderPlayback.Enabled = false;
+
+                lblCurrentTime.Text = "00:00:00";
+                lblTotalTime.Text = "00:00:00";
+
+                btnPlay.IconChar = FontAwesome.Sharp.IconChar.Play;
+                btnStop.IconColor = Color.Gray;
+                btnNext.IconColor = Color.Gray;
+                btnPrevious.IconColor = Color.Gray;
+                btnShuffle.IconColor = Color.Gray;
+                btnPlaylist.IconColor = Color.White;
+
+                lblSong.Text = "";
+                lblArtist.Text = "";
+                lblFolder.Text = "";
+            }
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (playlistIsActive)
-                Playlist.NextSong();
+            if (btnNext.IconColor == Color.White)
+            {
+                // This will trigger PlaybackStopped event, effectively skipping the current song and playing the next one.
+                waveOutDevice.Stop();
+            }
         }
 
         private void btnPrevious_Click(object sender, EventArgs e)
         {
-            if (playlistIsActive)
-                Playlist.PreviousSong();
+            if (btnPrevious.IconColor == Color.White)
+            {
+                // If it is playing the first song in the playlist, it will just go back to the beginning of the song.
+                if (currentTrackIndex == 0)
+                    currentTrackIndex--;
+                // Else, go back to previous song.
+                else
+                    currentTrackIndex -= 2;
+
+                // Trigger PlaybackStopped event.
+                waveOutDevice.Stop();
+            }
         }
 
         private void btnShuffle_Click(object sender, EventArgs e)
         {
-            if (playlistIsActive)
-                Playlist.PlaylistShuffle(Playlist.playlist);
+            if (btnShuffle.IconColor == Color.White)
+            {
+                if (lblFolder.Text.Contains("(shuffled)") == false)
+                    lblFolder.Text += " (shuffled)";
+
+                // Shuffle the playlist using Fisher-Yates shuffle algorithm.
+
+                Random rng = new Random();
+                int n = playlist.Count;
+
+                while (n > 1)
+                {
+                    n--;
+                    int k = rng.Next(n + 1);
+                    string value = playlist[k];
+                    playlist[k] = playlist[n];
+                    playlist[n] = value;
+                }
+
+                currentTrackIndex = -1;
+                waveOutDevice.Stop();
+            }
         }
 
         #endregion
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void btnMaximize_Click(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Maximized)
-                this.WindowState = FormWindowState.Normal;
-            else
-                this.WindowState = FormWindowState.Maximized;
-        }
-
-        private void btnMinimize_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
 
         private void ReadMetaData(string filepath)
         {
