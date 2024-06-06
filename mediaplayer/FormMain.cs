@@ -348,6 +348,10 @@ namespace mediaplayer
         {
             if (currentTrackIndex < playlist.Count)
             {
+                // Dispose if not null to prevent memory leaking
+                waveOutDevice?.Dispose();
+                audioFileReader?.Dispose();
+
                 waveOutDevice = new WaveOutEvent();
                 audioFileReader = new AudioFileReader(playlist[currentTrackIndex]);
                 waveOutDevice.Init(audioFileReader);
