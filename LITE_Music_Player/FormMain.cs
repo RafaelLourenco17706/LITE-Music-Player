@@ -11,7 +11,7 @@ using NAudio.Wave;
 using System.IO;
 using System.Timers;
 
-namespace mediaplayer
+namespace LITE_Music_Player
 {
     public partial class FormMain : Form
     {

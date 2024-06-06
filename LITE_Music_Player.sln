@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.34407.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mediaplayer", "mediaplayer\mediaplayer.csproj", "{B708F617-E843-4078-AD82-659D86224DE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LITE_Music_Player", "LITE_Music_Player\LITE_Music_Player.csproj", "{B708F617-E843-4078-AD82-659D86224DE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

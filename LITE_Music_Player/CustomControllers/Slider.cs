@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace mediaplayer
+namespace LITE_Music_Player
 {
     public class Slider : TrackBar
     {

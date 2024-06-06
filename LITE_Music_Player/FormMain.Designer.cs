@@ -1,5 +1,5 @@
 ﻿
-namespace mediaplayer
+namespace LITE_Music_Player
 {
     partial class FormMain
     {
@@ -37,11 +37,11 @@ namespace mediaplayer
             this.btnStop = new FontAwesome.Sharp.IconPictureBox();
             this.btnPrevious = new FontAwesome.Sharp.IconPictureBox();
             this.btnPlay = new FontAwesome.Sharp.IconPictureBox();
-            this.sliderPlayback = new mediaplayer.Slider();
+            this.sliderPlayback = new LITE_Music_Player.Slider();
             this.btnNext = new FontAwesome.Sharp.IconPictureBox();
             this.btnPlaylist = new FontAwesome.Sharp.IconPictureBox();
             this.lblCurrentTime = new System.Windows.Forms.Label();
-            this.sliderVolume = new mediaplayer.Slider();
+            this.sliderVolume = new LITE_Music_Player.Slider();
             this.btnVolume = new FontAwesome.Sharp.IconPictureBox();
             this.lblTotalTime = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
@@ -209,7 +209,7 @@ namespace mediaplayer
             // 
             // sliderPlayback
             // 
-            this.sliderPlayback.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.sliderPlayback.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpBottom.SetColumnSpan(this.sliderPlayback, 8);
             this.sliderPlayback.Enabled = false;

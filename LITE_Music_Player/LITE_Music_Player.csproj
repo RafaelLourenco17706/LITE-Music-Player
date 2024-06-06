@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B708F617-E843-4078-AD82-659D86224DE8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>mediaplayer</RootNamespace>
+    <RootNamespace>LITE_Music_Player</RootNamespace>
     <AssemblyName>LITE Music Player</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -111,6 +111,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
