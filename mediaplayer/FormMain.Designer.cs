@@ -29,6 +29,7 @@ namespace mediaplayer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.tlpBottom = new System.Windows.Forms.TableLayoutPanel();
@@ -481,10 +482,10 @@ namespace mediaplayer
             this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.tlpMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(600, 500);
             this.Name = "FormMain";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LITE Music Player";
             this.tlpMain.ResumeLayout(false);
